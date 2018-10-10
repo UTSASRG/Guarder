@@ -408,7 +408,7 @@ private:
 							repopulate();
 					}
 
-					//#warning doReplacement turned off
+					//#pragma message "doReplacement turned off"
 					//bool doReplacement = false;
 					bool doReplacement = true;
 					uintptr_t object = getRandomObject(doReplacement);
@@ -556,7 +556,7 @@ private:
 					}
 
 					unsigned position = 0;
-					#warning allocation buffer refill level set to 75%
+					#pragma message "allocation buffer refill level set to 75%"
 					// Fills the cache back up to 75% available (25% used)
 					unsigned refill_level = BIBOP_CACHE_SIZE >> 2;
 					while(_numUsedObjects > refill_level) {
@@ -730,7 +730,7 @@ public:
 		BibopHeap::_overProvObjBufSize = OVER_PROV_OBJ_BUF_SZ;
 
 		#ifdef BIBOP_BAG_SIZE
-		#warning BIBOP_BAG_SIZE in use: overrides randomized bag size
+		#pragma message "BIBOP_BAG_SIZE in use: overrides randomized bag size"
 		_bibopBagSize = BIBOP_BAG_SIZE;
 		#else		// randomized bag size
 		unsigned randPower = getRandomNumber() % (LOG2(MAX_RANDOM_BAG_SIZE / MIN_RANDOM_BAG_SIZE) + 1);
@@ -1095,7 +1095,7 @@ public:
 
 		markObjectFree(shadowinfo);
 
-		//#warning madvise turned off
+		//#pragma message "madvise turned off"
 		if(bag->classSize >= 16 * PAGESIZE) {
 				madvise(objectStartAddr, bag->classSize, MADV_DONTNEED);
 		}
@@ -1115,7 +1115,7 @@ private:
 
 	#ifdef DESTROY_ON_FREE
 	inline void destroyObject(void * addr, size_t classSize) {
-			#warning destroy-on-free only applies to objects <= 2KB in size
+			#pragma message "destroy-on-free only applies to objects <= 2KB in size"
 				if(classSize <= TWO_KILOBYTES) {
 						memset(addr, 0, classSize);
 				}
@@ -1126,15 +1126,15 @@ private:
 		int retVal;
 
     #ifdef SSE2RNG
-    #warning using sse2rng routine rather than libc rand
+    #pragma message "using sse2rng routine rather than libc rand"
     unsigned randNum[4];
     rand_sse(randNum);
 		retVal = randNum[0];
     #elif ARC4RNG
-    #warning using arc4rng routine rather than libc rand
+    #pragma mesage "using arc4rng routine rather than libc rand"
     retVal = arc4random_uniform(RAND_MAX);
     #else
-    #warning using libc random number generator
+    #pragma message "using libc random number generator"
     retVal = rand();
     #endif
 

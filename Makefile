@@ -1,6 +1,6 @@
-SRCS = real.cpp							\
-			 xthread.cpp          \
-			 libguarder.cpp
+SRCS = real.cpp						\
+		xthread.cpp						\
+		libguarder.cpp
 
 INCS = bibopheap.hh				\
 		bigheap.hh						\
@@ -19,18 +19,14 @@ INCS = bibopheap.hh				\
 
 DEPS = $(SRCS) $(INCS)
 
+CC = clang
 CXX = clang++ 
 
 ifndef DEBUG_LEVEL
 DEBUG_LEVEL = 3
 endif
 
-#CFLAGS += -O2 -Wall --std=c++11 -g -fno-omit-frame-pointer -DDEBUG_LEVEL=$(DEBUG_LEVEL)
-#CFLAGS += -O2 -Wall --std=c++11 -g -fno-omit-frame-pointer -DDEBUG_LEVEL=$(DEBUG_LEVEL) -DCUSTOMIZED_STACK -DENABLE_GUARDPAGE -DCFREELIST
-#CFLAGS += -O2 -Wall --std=c++11 -g -fno-omit-frame-pointer -DDEBUG_LEVEL=$(DEBUG_LEVEL) -DCUSTOMIZED_STACK -DENABLE_GUARDPAGE -DRANDOM_GUARD
-#CFLAGS += -O2 -Wall --std=c++11 -g -fno-omit-frame-pointer -DDEBUG_LEVEL=$(DEBUG_LEVEL) -DCUSTOMIZED_STACK -DENABLE_GUARDPAGE -DRANDOM_GUARD
 CFLAGS += -O2 -Wall --std=c++11 -g -fno-omit-frame-pointer -DNDEBUG -DCUSTOMIZED_STACK -DENABLE_GUARDPAGE -DRANDOM_GUARD -DUSE_CANARY
-CFLAGS2 = -O2 --std=c++11 -g -fno-omit-frame-pointer
 
 # NDEBUG overrules DEBUG_LEVEL macro in log.hh
 ifdef NDEBUG
@@ -62,7 +58,6 @@ rng/arc4random.o: rng/arc4random.c
 
 rng/arc4random_uniform.o: rng/arc4random_uniform.c
 	clang -fPIC -O2 -DNDEBUG -I. -c rng/arc4random_uniform.c -o rng/arc4random_uniform.o
-
 
 libguarder.so: $(DEPS)
 	$(CXX) $(CFLAGS) $(INCLUDE_DIRS) -shared -fPIC $(SRCS) -o libguarder.so -ldl -lpthread -lrt

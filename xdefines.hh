@@ -62,7 +62,7 @@ inline int getOutputFD() {
 
 #ifndef CUSTOMIZED_STACK
 inline int getThreadIndex(void * stackVar = NULL) {
-	#warning using non-customized stack
+	#pragma message "using non-customized stack"
   return _threadIndex;
 }
 
@@ -99,7 +99,7 @@ inline size_t aligndown(size_t addr, size_t alignto) { return (addr & ~(alignto 
 #define ALLOC_SENTINEL 0x1
 #define FREE_SENTINEL 0x0
 #ifdef USE_CANARY
-  #warning canary value in use
+  #pragma message "canary value in use"
   #define CANARY_SENTINEL 0x7B
   #define NUM_MORE_CANARIES_TO_CHECK 2
   #define IF_CANARY_CONDITION ((size + 1) > LARGE_OBJECT_THRESHOLD)
@@ -142,7 +142,7 @@ inline size_t aligndown(size_t addr, size_t alignto) { return (addr & ~(alignto 
 #define N_64BITS 64
 #define TWO_KILOBYTES 2048
 #ifdef DESTROY_ON_FREE
-#warning destroy-on-free feature in use
+#pragma message "destroy-on-free feature in use"
 #endif
 
 struct guarder_opts {
